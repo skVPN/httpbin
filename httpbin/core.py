@@ -155,7 +155,7 @@ swagger_config = {
     "static_url_path": "/flasgger_static",
     # "static_folder": "static",  # must be set by user
     "swagger_ui": True,
-    "specs_route": "/",
+    "specs_route": "/home",
 }
 
 swagger = Swagger(app, sanitizer=NO_SANITIZER, template=template, config=swagger_config)
@@ -377,6 +377,11 @@ def view_get():
     """
 
     return jsonify(get_dict("url", "args", "headers", "origin"))
+
+
+@app.route("/", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "TRACE"])
+def myip():
+    return jsonify(origin=request.headers.get("X-Forwarded-For", request.remote_addr))
 
 
 @app.route("/anything", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "TRACE"])
